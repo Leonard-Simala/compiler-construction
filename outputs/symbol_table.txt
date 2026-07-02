@@ -8,11 +8,4 @@
 8.	main
 9.	while
 10.	return
-11.	a
-12.	grade
-13.	subject1
-14.	subject2
-15.	subject3
-16.	total
-17.	average
-18.	percentage
+11.	output

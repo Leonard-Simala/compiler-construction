@@ -1,4 +1,7 @@
-from symbolTableManager import SymbolTableManager
+#from modules import symbolTableManager
+from modules.symbolTableManager.symbolTableManager import SymbolTableManager
+#from symbolTableManager import SymbolTableManager
+
 
 class MemoryManager(object):
     ''' Manages shared information about memory locations '''

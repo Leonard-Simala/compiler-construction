@@ -1,5 +1,6 @@
 import os
-from scanner import SymbolTableManager
+#from scanner import SymbolTableManager
+from modules.symbolTableManager.symbolTableManager import SymbolTableManager
 from memory_manager import MemoryManager
 
 script_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))

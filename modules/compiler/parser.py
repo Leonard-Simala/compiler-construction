@@ -164,7 +164,7 @@ def main(input_path):
     parser.parse()
     stop = time.time() - start
     #MemoryManager.init()
-    print(f"Parsing took {stop:.6f} s")
+    print(f"Parsing took {stop:.6f} s check Parse_tree.txt in Outputs")
     parser.save_parse_tree()
     parser.save_syntax_errors()
     parser.scanner.save_lexical_errors()
@@ -174,7 +174,7 @@ def main(input_path):
 
 
 if __name__ == "__main__":
-    input_path = os.path.join(script_dir, "inputs/marks.c")
+    input_path = os.path.join(script_dir, "inputs/void.c")
     main(input_path)
 
 

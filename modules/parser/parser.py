@@ -1,21 +1,19 @@
 #Importing the os module
+import sys
 import os
-
-#Pip install anytree package 
+#Pip install anytree package
 from anytree import Node, RenderTree, PreOrderIter
 
-from modules.scanner import scanner as Scanner
-from modules.scanner import symbolTableManager as SymbolTableManager
+from modules.symbolTableManager.symbolTableManager import SymbolTableManager
+from modules.scanner.scanner import Scanner
 
-from parser_table import non_terminal_to_missing_construct
-from parser_table import productions
-from parser_table import terminal_to_col
-from parser_table import non_terminal_to_row
-from parser_table import parsing_table
+from modules.parserTable.parser_table import productions
+from modules.parserTable.parser_table import terminal_to_col
+from modules.parserTable.parser_table import non_terminal_to_row
+from modules.parserTable.parser_table import parsing_table
 
 # importing the file containing the code
-script_dir = os.path.dirname(os.path.dirname(
-    os.path.dirname(os.path.abspath(__file__))))
+script_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 #
 class Parser(object):
 
@@ -87,6 +85,7 @@ class Parser(object):
         new_nodes = []
         while True:
             token_type, a = token
+            a = a.strip() if isinstance(a, str) else a #Safe strip
             if token_type in ("ID", "NUMBER", "DECIMAL", "LETTER"):   # parser won't understand the lexim input in this case
                 a = token_type
 
@@ -163,5 +162,5 @@ def main(input_path):
     parser.scanner.save_tokens()
 
 if __name__ == "__main__":
-    input_path = os.path.join(script_dir, "inputs/marks.c")
+    input_path = os.path.join(script_dir, "inputs/void.c")
     main(input_path)

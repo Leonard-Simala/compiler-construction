@@ -1,1 +1,2 @@
-There is no syntax error.
+#3 : Syntax Error! Missing "ID"
+#4 : Syntax Error! Missing "="

@@ -2,7 +2,7 @@ Program
 ├── Main-function
 │   ├── Main-func-initial
 │   │   ├── Type-specifier
-│   │   │   └── (KEYWORD, char)
+│   │   │   └── (KEYWORD, void)
 │   │   └── (KEYWORD, main)
 │   └── Function-body
 │       ├── (SYMBOL, ()
@@ -10,279 +10,25 @@ Program
 │       │   └── Parameter
 │       │       └── Function-initial
 │       │           ├── Type-specifier
-│       │           │   └── (KEYWORD, int)
-│       │           └── (ID, a)
+│       │           │   └── (KEYWORD, void)
+│       │           └── ID
 │       ├── (SYMBOL, ))
 │       ├── (SYMBOL, {)
 │       ├── Statement-list
-│       │   ├── Statement
-│       │   │   └── Declaration-stmt
-│       │   │       ├── Type-specifier
-│       │   │       │   └── (KEYWORD, char)
-│       │   │       ├── (ID, grade)
-│       │   │       └── Declaration-Id
-│       │   │           └── (SYMBOL, ;)
-│       │   └── Statement-list
-│       │       ├── Statement
-│       │       │   └── Declaration-stmt
-│       │       │       ├── Type-specifier
-│       │       │       │   └── (KEYWORD, float)
-│       │       │       ├── (ID, subject1)
-│       │       │       └── Declaration-Id
-│       │       │           ├── (SYMBOL, ,)
-│       │       │           ├── (ID, subject2)
-│       │       │           └── Declaration-Id
-│       │       │               ├── (SYMBOL, ,)
-│       │       │               ├── (ID, subject3)
-│       │       │               └── Declaration-Id
-│       │       │                   └── (SYMBOL, ;)
-│       │       └── Statement-list
-│       │           ├── Statement
-│       │           │   └── Declaration-stmt
-│       │           │       ├── Type-specifier
-│       │           │       │   └── (KEYWORD, float)
-│       │           │       ├── (ID, total)
-│       │           │       └── Declaration-Id
-│       │           │           ├── (SYMBOL, ,)
-│       │           │           ├── (ID, average)
-│       │           │           └── Declaration-Id
-│       │           │               ├── (SYMBOL, ,)
-│       │           │               ├── (ID, percentage)
-│       │           │               └── Declaration-Id
-│       │           │                   └── (SYMBOL, ;)
-│       │           └── Statement-list
-│       │               ├── Statement
-│       │               │   └── Assign-stmt
-│       │               │       ├── (ID, subject1)
-│       │               │       ├── (ASSIGN, =)
-│       │               │       ├── Expression
-│       │               │       │   └── Term
-│       │               │       │       └── Factor
-│       │               │       │           └── (NUMBER, 45)
-│       │               │       └── (SYMBOL, ;)
-│       │               └── Statement-list
-│       │                   ├── Statement
-│       │                   │   └── Assign-stmt
-│       │                   │       ├── (ID, subject2)
-│       │                   │       ├── (ASSIGN, =)
-│       │                   │       ├── Expression
-│       │                   │       │   └── Term
-│       │                   │       │       └── Factor
-│       │                   │       │           └── (NUMBER, 67)
-│       │                   │       └── (SYMBOL, ;)
-│       │                   └── Statement-list
-│       │                       ├── Statement
-│       │                       │   └── Assign-stmt
-│       │                       │       ├── (ID, subject3)
-│       │                       │       ├── (ASSIGN, =)
-│       │                       │       ├── Expression
-│       │                       │       │   └── Term
-│       │                       │       │       └── Factor
-│       │                       │       │           └── (NUMBER, 80)
-│       │                       │       └── (SYMBOL, ;)
-│       │                       └── Statement-list
-│       │                           ├── Statement
-│       │                           │   └── Assign-stmt
-│       │                           │       ├── (ID, total)
-│       │                           │       ├── (ASSIGN, =)
-│       │                           │       ├── Expression
-│       │                           │       │   ├── Term
-│       │                           │       │   │   └── Factor
-│       │                           │       │   │       └── (ID, subject1)
-│       │                           │       │   └── Term-op
-│       │                           │       │       ├── (ADD, +)
-│       │                           │       │       └── Expression
-│       │                           │       │           ├── Term
-│       │                           │       │           │   └── Factor
-│       │                           │       │           │       └── (ID, subject2)
-│       │                           │       │           └── Term-op
-│       │                           │       │               ├── (ADD, +)
-│       │                           │       │               └── Expression
-│       │                           │       │                   └── Term
-│       │                           │       │                       └── Factor
-│       │                           │       │                           └── (ID, subject3)
-│       │                           │       └── (SYMBOL, ;)
-│       │                           └── Statement-list
-│       │                               ├── Statement
-│       │                               │   └── Assign-stmt
-│       │                               │       ├── (ID, average)
-│       │                               │       ├── (ASSIGN, =)
-│       │                               │       ├── Expression
-│       │                               │       │   ├── Term
-│       │                               │       │   │   └── Factor
-│       │                               │       │   │       └── (ID, total)
-│       │                               │       │   └── Term-op
-│       │                               │       │       ├── (DIV, /)
-│       │                               │       │       └── Factor
-│       │                               │       │           └── (DECIMAL, 5.0)
-│       │                               │       └── (SYMBOL, ;)
-│       │                               └── Statement-list
-│       │                                   ├── Statement
-│       │                                   │   └── Assign-stmt
-│       │                                   │       ├── (ID, percentage)
-│       │                                   │       ├── (ASSIGN, =)
-│       │                                   │       ├── Expression
-│       │                                   │       │   ├── Term
-│       │                                   │       │   │   └── Factor
-│       │                                   │       │   │       ├── (SYMBOL, ()
-│       │                                   │       │   │       ├── Expression
-│       │                                   │       │   │       │   ├── Term
-│       │                                   │       │   │       │   │   └── Factor
-│       │                                   │       │   │       │   │       └── (ID, total)
-│       │                                   │       │   │       │   └── Term-op
-│       │                                   │       │   │       │       ├── (DIV, /)
-│       │                                   │       │   │       │       └── Factor
-│       │                                   │       │   │       │           └── (DECIMAL, 500.0)
-│       │                                   │       │   │       └── (SYMBOL, ))
-│       │                                   │       │   └── Term-op
-│       │                                   │       │       ├── (MULT, *)
-│       │                                   │       │       └── Factor
-│       │                                   │       │           └── (NUMBER, 100)
-│       │                                   │       └── (SYMBOL, ;)
-│       │                                   └── Statement-list
-│       │                                       ├── Statement
-│       │                                       │   └── Conditional-stmt
-│       │                                       │       ├── (KEYWORD, if)
-│       │                                       │       ├── (SYMBOL, ()
-│       │                                       │       ├── Condition
-│       │                                       │       │   ├── (ID, average)
-│       │                                       │       │   ├── Rel-op
-│       │                                       │       │   │   └── (GREATER_EQUAL, >=)
-│       │                                       │       │   └── Expression
-│       │                                       │       │       └── Term
-│       │                                       │       │           └── Factor
-│       │                                       │       │               └── (NUMBER, 90)
-│       │                                       │       ├── (SYMBOL, ))
-│       │                                       │       ├── Statement-body
-│       │                                       │       │   └── Statement
-│       │                                       │       │       └── Assign-stmt
-│       │                                       │       │           ├── (ID, grade)
-│       │                                       │       │           ├── (ASSIGN, =)
-│       │                                       │       │           ├── Expression
-│       │                                       │       │           │   └── (LETTER, 'A' )
-│       │                                       │       │           └── (SYMBOL, ;)
-│       │                                       │       └── Conditional-nest
-│       │                                       │           ├── (KEYWORD, else)
-│       │                                       │           └── Condition-body
-│       │                                       │               └── Elif-stmt
-│       │                                       │                   ├── (KEYWORD, if)
-│       │                                       │                   ├── (SYMBOL, ()
-│       │                                       │                   ├── Condition
-│       │                                       │                   │   ├── (ID, average)
-│       │                                       │                   │   ├── Rel-op
-│       │                                       │                   │   │   └── (GREATER_EQUAL, >=)
-│       │                                       │                   │   ├── Expression
-│       │                                       │                   │   │   └── Term
-│       │                                       │                   │   │       └── Factor
-│       │                                       │                   │   │           └── (NUMBER, 80)
-│       │                                       │                   │   └── Compound-condition
-│       │                                       │                   │       ├── Log-op
-│       │                                       │                   │       │   └── (AND, &&)
-│       │                                       │                   │       └── Condition
-│       │                                       │                   │           ├── (ID, average)
-│       │                                       │                   │           ├── Rel-op
-│       │                                       │                   │           │   └── (LESS_THAN, <)
-│       │                                       │                   │           └── Expression
-│       │                                       │                   │               └── Term
-│       │                                       │                   │                   └── Factor
-│       │                                       │                   │                       └── (NUMBER, 90)
-│       │                                       │                   ├── (SYMBOL, ))
-│       │                                       │                   ├── Statement-body
-│       │                                       │                   │   └── Statement
-│       │                                       │                   │       └── Assign-stmt
-│       │                                       │                   │           ├── (ID, grade)
-│       │                                       │                   │           ├── (ASSIGN, =)
-│       │                                       │                   │           ├── Expression
-│       │                                       │                   │           │   └── (LETTER, 'B' )
-│       │                                       │                   │           └── (SYMBOL, ;)
-│       │                                       │                   ├── (KEYWORD, else)
-│       │                                       │                   └── Conditional-nest
-│       │                                       │                       └── Else-stmt
-│       │                                       │                           └── Statement-body
-│       │                                       │                               └── Statement
-│       │                                       │                                   └── Conditional-stmt
-│       │                                       │                                       ├── (KEYWORD, if)
-│       │                                       │                                       ├── (SYMBOL, ()
-│       │                                       │                                       ├── Condition
-│       │                                       │                                       │   ├── (ID, average)
-│       │                                       │                                       │   ├── Rel-op
-│       │                                       │                                       │   │   └── (GREATER_EQUAL, >=)
-│       │                                       │                                       │   ├── Expression
-│       │                                       │                                       │   │   └── Term
-│       │                                       │                                       │   │       └── Factor
-│       │                                       │                                       │   │           └── (NUMBER, 70)
-│       │                                       │                                       │   └── Compound-condition
-│       │                                       │                                       │       ├── Log-op
-│       │                                       │                                       │       │   └── (AND, &&)
-│       │                                       │                                       │       └── Condition
-│       │                                       │                                       │           ├── (ID, average)
-│       │                                       │                                       │           ├── Rel-op
-│       │                                       │                                       │           │   └── (LESS_EQUAL, <=)
-│       │                                       │                                       │           └── Expression
-│       │                                       │                                       │               └── Term
-│       │                                       │                                       │                   └── Factor
-│       │                                       │                                       │                       └── (NUMBER, 80)
-│       │                                       │                                       ├── (SYMBOL, ))
-│       │                                       │                                       ├── Statement-body
-│       │                                       │                                       │   └── Statement
-│       │                                       │                                       │       └── Assign-stmt
-│       │                                       │                                       │           ├── (ID, grade)
-│       │                                       │                                       │           ├── (ASSIGN, =)
-│       │                                       │                                       │           ├── Expression
-│       │                                       │                                       │           │   └── (LETTER, 'C' )
-│       │                                       │                                       │           └── (SYMBOL, ;)
-│       │                                       │                                       └── Conditional-nest
-│       │                                       │                                           ├── (KEYWORD, else)
-│       │                                       │                                           └── Condition-body
-│       │                                       │                                               └── Elif-stmt
-│       │                                       │                                                   ├── (KEYWORD, if)
-│       │                                       │                                                   ├── (SYMBOL, ()
-│       │                                       │                                                   ├── Condition
-│       │                                       │                                                   │   ├── (ID, average)
-│       │                                       │                                                   │   ├── Rel-op
-│       │                                       │                                                   │   │   └── (GREATER_THAN, >)
-│       │                                       │                                                   │   ├── Expression
-│       │                                       │                                                   │   │   └── Term
-│       │                                       │                                                   │   │       └── Factor
-│       │                                       │                                                   │   │           └── (NUMBER, 60)
-│       │                                       │                                                   │   └── Compound-condition
-│       │                                       │                                                   │       ├── Log-op
-│       │                                       │                                                   │       │   └── (AND, &&)
-│       │                                       │                                                   │       └── Condition
-│       │                                       │                                                   │           ├── (ID, average)
-│       │                                       │                                                   │           ├── Rel-op
-│       │                                       │                                                   │           │   └── (LESS_EQUAL, <=)
-│       │                                       │                                                   │           └── Expression
-│       │                                       │                                                   │               └── Term
-│       │                                       │                                                   │                   └── Factor
-│       │                                       │                                                   │                       └── (NUMBER, 70)
-│       │                                       │                                                   ├── (SYMBOL, ))
-│       │                                       │                                                   ├── Statement-body
-│       │                                       │                                                   │   └── Statement
-│       │                                       │                                                   │       └── Assign-stmt
-│       │                                       │                                                   │           ├── (ID, grade)
-│       │                                       │                                                   │           ├── (ASSIGN, =)
-│       │                                       │                                                   │           ├── Expression
-│       │                                       │                                                   │           │   └── (LETTER, 'D' )
-│       │                                       │                                                   │           └── (SYMBOL, ;)
-│       │                                       │                                                   ├── (KEYWORD, else)
-│       │                                       │                                                   └── Conditional-nest
-│       │                                       │                                                       └── Else-stmt
-│       │                                       │                                                           └── Statement-body
-│       │                                       │                                                               └── Statement
-│       │                                       │                                                                   └── Assign-stmt
-│       │                                       │                                                                       ├── (ID, grade)
-│       │                                       │                                                                       ├── (ASSIGN, =)
-│       │                                       │                                                                       ├── Expression
-│       │                                       │                                                                       │   └── (LETTER, 'E' )
-│       │                                       │                                                                       └── (SYMBOL, ;)
-│       │                                       └── Statement-list
-│       │                                           └── Statement
-│       │                                               └── Return-stmt
-│       │                                                   ├── (KEYWORD, return)
-│       │                                                   ├── Return-type
-│       │                                                   │   └── (ID, grade)
-│       │                                                   └── (SYMBOL, ;)
+│       │   └── Statement
+│       │       └── Assign-stmt
+│       │           ├── (ID, output)
+│       │           ├── =
+│       │           ├── Expression
+│       │           │   └── Term
+│       │           │       └── Factor
+│       │           │           ├── (SYMBOL, ()
+│       │           │           ├── Expression
+│       │           │           │   └── Term
+│       │           │           │       └── Factor
+│       │           │           │           └── (NUMBER, 1234)
+│       │           │           └── (SYMBOL, ))
+│       │           └── (SYMBOL, ;)
 │       └── (SYMBOL, })
 └── Function-list
     └── EPSILON

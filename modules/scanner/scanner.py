@@ -1,14 +1,17 @@
 import os
-import symbolTableManager as symbolTableManager
 
-from token_dfa import char_to_col
-from token_dfa import state_to_token
-from token_dfa import state_to_error_message
-from token_dfa import unclosed_comment_states
-from token_dfa import whitespaces
-from token_dfa import token_dfa
-from token_dfa import F
-from token_dfa import Fstar
+from modules import symbolTableManager
+from modules.symbolTableManager.symbolTableManager import SymbolTableManager
+
+from modules.token_dfa.token_dfa import char_to_col
+#from modules.symbolTableManager.symbolTableManager import SymbolTableManager
+from modules.token_dfa.token_dfa import state_to_token
+from modules.token_dfa.token_dfa import state_to_error_message
+from modules.token_dfa.token_dfa import unclosed_comment_states
+from modules.token_dfa.token_dfa import whitespaces
+from modules.token_dfa.token_dfa import token_dfa
+from modules.token_dfa.token_dfa import F
+from modules.token_dfa.token_dfa import Fstar
 
 script_dir = os.path.dirname(os.path.dirname(
     os.path.dirname(os.path.abspath(__file__))))
@@ -95,7 +98,7 @@ class Scanner(object):
     # assigns an id number to symbols in the symbol table
 
     def id_to_lexim(self, token_id):
-        return symbolTableManager.SymbolTableManager.symbol_table[token_id]['lexim']
+        return symbolTableManager.symbolTableManager.SymbolTableManager.symbol_table[token_id]['lexim']
 
     def token_to_str(self, token):  # updates the symbol table with identifiers and keywords only
         if token[0] == "ID":
@@ -155,9 +158,9 @@ class Scanner(object):
 
     # attach an id to a symbol and append it to the symbol table
     def update_symbol_table(self, lexim):
-        symbol_id = symbolTableManager.SymbolTableManager.install_id(lexim)
-        if symbol_id == len(symbolTableManager.SymbolTableManager.symbol_table):
-            symbolTableManager.SymbolTableManager.insert(lexim)
+        symbol_id = symbolTableManager.symbolTableManager.SymbolTableManager.install_id(lexim)
+        if symbol_id == len(symbolTableManager.symbolTableManager.SymbolTableManager.symbol_table):
+            symbolTableManager.symbolTableManager.SymbolTableManager.insert(lexim)
         return symbol_id
 
     # ------ tokenization function ------
@@ -188,7 +191,7 @@ class Scanner(object):
                         err_token = self.input[:mucs]
                         if len(self.input) > len(err_token):
                             err_token = err_token + " ..."
-                        symbolTableManager.SymbolTableManager.error_flag = True
+                        symbolTableManager.symbolTableManager.SymbolTableManager.error_flag = True
                         self._lexical_errors.append(
                             (self.line_number, err_token, "unclosed comment"))
                     self.line_number += self.input.count("\n")
@@ -216,7 +219,7 @@ class Scanner(object):
                         i -= 1
                     lexim, error = self.input[:i], state_to_error_message[s]
                     if self.max_state_size > 0:
-                        symbolTableManager.SymbolTableManager.error_flag = True
+                        symbolTableManager.symbolTableManager.SymbolTableManager.error_flag = True
                         self._lexical_errors.append(
                             (self.line_number, lexim, error))
                     else:
@@ -285,13 +288,12 @@ def main(input_path):
     while token[0] != "EOF":
         token = scanner.get_next_token()
     stop = time.time() - start
-    print(f"Scanning took {stop:.6f} s")
+    print(f"Scanning took {stop:.6f} s Check the Tokens.txt file in The outputs Folder")
     scanner.save_symbol_table()
     scanner.save_lexical_errors()
     scanner.save_tokens()
 
-
 if __name__ == "__main__":
-    symbolTableManager.SymbolTableManager.init()
-    input_path = os.path.join(script_dir, "inputs/marks.c")
+    symbolTableManager.symbolTableManager.SymbolTableManager.init()
+    input_path = os.path.join(script_dir, "inputs/void.c")
     main(input_path)
