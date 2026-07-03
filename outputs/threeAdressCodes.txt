@@ -1,0 +1,48 @@
+
+(ID, a):
+declare Type-specifier (ID, grade)
+declare Type-specifier (ID, subject1)
+declare Type-specifier (ID, subject2)
+declare Type-specifier (ID, subject3)
+declare Type-specifier (ID, total)
+declare Type-specifier (ID, average)
+declare Type-specifier (ID, percentage)
+(ID, subject1) = (NUMBER, 45)
+(ID, subject2) = (NUMBER, 67)
+(ID, subject3) = (NUMBER, 80)
+(ID, total) = (ID, subject1)
+(ID, average) = (ID, total)
+(ID, percentage) = (ID, total)
+if (ID, average) (GREATER_EQUAL, >=) (NUMBER, 90) goto L1
+goto L2
+L1:
+(ID, grade) = (LETTER, 'A' )
+goto L3
+L2:
+t1 = (ID, average) (GREATER_EQUAL, >=) (NUMBER, 80) (AND, &&) (ID, average) (LESS_THAN, < ) (NUMBER, 90)
+if t1 goto L4
+goto L5
+L4:
+(ID, grade) = (LETTER, 'B' )
+goto L6
+L5:
+t2 = (ID, average) (GREATER_EQUAL, >=) (NUMBER, 70) (AND, &&) (ID, average) (LESS_EQUAL, <=) (NUMBER, 80)
+if t2 goto L7
+goto L8
+L7:
+(ID, grade) = (LETTER, 'C' )
+goto L9
+L8:
+t3 = (ID, average) (GREATER_THAN, > ) (NUMBER, 60) (AND, &&) (ID, average) (LESS_EQUAL, <=) (NUMBER, 70)
+if t3 goto L10
+goto L11
+L10:
+(ID, grade) = (LETTER, 'D' )
+goto L12
+L11:
+(ID, grade) = (LETTER, 'E' )
+L12:
+L9:
+L6:
+L3:
+return (ID, grade)

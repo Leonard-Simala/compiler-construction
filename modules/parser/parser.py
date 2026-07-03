@@ -1,12 +1,11 @@
 #Importing the os module
 import sys
 import os
+
 #Pip install anytree package
 from anytree import Node, RenderTree, PreOrderIter
-
 from modules.symbolTableManager.symbolTableManager import SymbolTableManager
 from modules.scanner.scanner import Scanner
-
 from modules.parserTable.parser_table import productions
 from modules.parserTable.parser_table import terminal_to_col
 from modules.parserTable.parser_table import non_terminal_to_row
@@ -18,7 +17,7 @@ script_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__f
 class Parser(object):
 
     ''' Syntax analyzer class that parses the token stream from the scanner
-    give a parse tree starting with input string 
+    given a parse tree starting with input string
     '''
     # used to check whether the specified path is an absolute path 
     def __init__(self, input_file):
@@ -32,8 +31,8 @@ class Parser(object):
         self.parse_tree = self.root
         self.stack = [Node("$"), self.root]
         
-        self.parse_tree_file = os.path.join(script_dir, "outputs", "parse_tree.txt")
-        self.syntax_error_file = os.path.join(script_dir, "errors", "syntax_errors.txt")
+        self.parse_tree_file = os.path.join(script_dir, "outputs", "parseTree.txt")
+        self.syntax_error_file = os.path.join(script_dir, "errors", "syntaxErrors.txt")
 
     # getter for for sysntax errors
     @property    
@@ -101,7 +100,7 @@ class Parser(object):
                     token = self.scanner.get_next_token()
                 else:
                     SymbolTableManager.error_flag = True
-                    if X == "$": 
+                    if X == "$":
                         # parse stack unexpectedly exhausted
                         # self._clean_up_tree()
                         break
@@ -120,11 +119,12 @@ class Parser(object):
                     SymbolTableManager.error_flag = True
                     if a == "$":
                         self._syntax_errors.append((self.scanner.line_number, "Unexpected EndOfFile"))
+
                         # self._clean_up_tree()
                         clean_up_needed = True
                         break
-                    # missing_construct = non_terminal_to_missing_construct[X]
-                    # self._syntax_errors.append((self.scanner.line_number, f'Missing "{missing_construct}"'))
+                    #missing_construct = non_terminal_to_missing_construct[X]
+                    ##self._syntax_errors.append((self.scanner.line_number, f'Missing "{missing_construct}"'))
                     self._remove_node(current_node)
                     self.stack.pop()
                 elif "EMPTY" in rhs:
@@ -148,19 +148,43 @@ class Parser(object):
 
 def main(input_path):
     import time
+    import os
+    from modules.intermediateCodeGeneration.threeAdressCodes import TACGenerator
+    from modules.memory.memoryManager import MemoryManager
+
     SymbolTableManager.init()
+
+    # ── Parsing ──────────────────────────────────────────────
     parser = Parser(input_path)
     start = time.time()
     parser.parse()
     stop = time.time() - start
-    
-    print(f"Parsing took {stop:.6f} s")
+    print(f"Parsing took {stop:.6f}s Check the parseTree.txt file in The outputs Folder")
+
+    # Save parser outputs
     parser.save_parse_tree()
     parser.save_syntax_errors()
     parser.scanner.save_lexical_errors()
     parser.scanner.save_symbol_table()
     parser.scanner.save_tokens()
 
+    # ── Memory Manager ───────────────────────────────────────
+    memory = MemoryManager()
+    for row in SymbolTableManager.symbol_table:
+        if "type" in row:
+            memory.allocate(row["lexim"], row["type"])
+
+    # ── TAC Generation ───────────────────────────────────────
+    tac_output = os.path.join(script_dir, "outputs", "threeAdressCodes.txt")
+    tac = TACGenerator(parser.parse_tree, memory)
+    tac.generate()
+    tac.save(tac_output)
+
+    ''''# Test if Three Address codes are being printed.
+    print("\n--- Three Address Code ---")
+    for line in tac.code:
+        print(line)'''
+    
 if __name__ == "__main__":
-    input_path = os.path.join(script_dir, "inputs/void.c")
+    input_path = os.path.join(script_dir, "inputs/marks.c")
     main(input_path)

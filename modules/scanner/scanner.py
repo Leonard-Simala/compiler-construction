@@ -43,9 +43,9 @@ class Scanner(object):
 
         self.tokens_file = os.path.join(script_dir, "outputs", "tokens.txt")
         self.symbol_file = os.path.join(
-            script_dir, "outputs", "symbol_table.txt")
+            script_dir, "outputs", "symbolTable.txt")
         self.errors_file = os.path.join(
-            script_dir, "errors", "lexical_errors.txt")
+            script_dir, "errors", "lexicalErrors.txt")
 
         self.chunk_size = chunk_size
         self.file_pointer = 0
@@ -196,7 +196,7 @@ class Scanner(object):
                             (self.line_number, err_token, "unclosed comment"))
                     self.line_number += self.input.count("\n")
                     self.input = ""
-                    return ("EOF", "$")
+                    return ("EOF","$")
 
             token_candidates = []
             error_occurred = False

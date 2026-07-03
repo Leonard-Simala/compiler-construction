@@ -2,7 +2,7 @@ char_to_col = {        # abbreviations in DFA
     "WHITESPACE" : 0,  # w
     "DIGIT"      : 1,  # d
     "LETTER"     : 2,  # l
-    "'"          : 3,  # ' (for charcaters)
+    "'"          : 3,  # ' (for characaters)
     "SYMBOL"     : 4,  # s
     # arithmetic operator symbols
     "+"          : 5,  # +

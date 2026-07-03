@@ -1,0 +1,18 @@
+1.	if
+2.	else
+3.	void
+4.	int
+5.	char
+6.	float
+7.	else if
+8.	main
+9.	while
+10.	return
+11.	a
+12.	grade
+13.	subject1
+14.	subject2
+15.	subject3
+16.	total
+17.	average
+18.	percentage
