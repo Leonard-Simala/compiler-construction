@@ -1,17 +1,27 @@
-import os
+"""
+=============================================================================
+Module      : scanner.py
+Description : Lexical Analyser for the compiler pipeline.
+              Generates the parse tree
+Author      : Leonard Simala
+Date        : 2023-04-03
+Version     : 1.0.0
+=============================================================================
+"""
 
+import os
 from modules import symbolTableManager
 from modules.symbolTableManager.symbolTableManager import SymbolTableManager
 
-from modules.token_dfa.token_dfa import char_to_col
+from modules.dfa.tokenDfa import char_to_col
 #from modules.symbolTableManager.symbolTableManager import SymbolTableManager
-from modules.token_dfa.token_dfa import state_to_token
-from modules.token_dfa.token_dfa import state_to_error_message
-from modules.token_dfa.token_dfa import unclosed_comment_states
-from modules.token_dfa.token_dfa import whitespaces
-from modules.token_dfa.token_dfa import token_dfa
-from modules.token_dfa.token_dfa import F
-from modules.token_dfa.token_dfa import Fstar
+from modules.dfa.tokenDfa import state_to_token
+from modules.dfa.tokenDfa import state_to_error_message
+from modules.dfa.tokenDfa import unclosed_comment_states
+from modules.dfa.tokenDfa import whitespaces
+from modules.dfa.tokenDfa import token_dfa
+from modules.dfa.tokenDfa import F
+from modules.dfa.tokenDfa import Fstar
 
 script_dir = os.path.dirname(os.path.dirname(
     os.path.dirname(os.path.abspath(__file__))))
@@ -295,5 +305,5 @@ def main(input_path):
 
 if __name__ == "__main__":
     symbolTableManager.symbolTableManager.SymbolTableManager.init()
-    input_path = os.path.join(script_dir, "inputs/void.c")
+    input_path = os.path.join(script_dir, "inputs/marks.c")
     main(input_path)

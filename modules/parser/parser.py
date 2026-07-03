@@ -1,15 +1,21 @@
-#Importing the os module
-import sys
+"""
+=============================================================================
+Module      : parser.py
+Description : Syntax Analyser for the compiler pipeline.
+              Generates the parse tree
+Author      : Leonard Simala
+Date        : 2023-04-03
+Version     : 1.0.0
+=============================================================================
+"""
 import os
-
-#Pip install anytree package
 from anytree import Node, RenderTree, PreOrderIter
 from modules.symbolTableManager.symbolTableManager import SymbolTableManager
 from modules.scanner.scanner import Scanner
-from modules.parserTable.parser_table import productions
-from modules.parserTable.parser_table import terminal_to_col
-from modules.parserTable.parser_table import non_terminal_to_row
-from modules.parserTable.parser_table import parsing_table
+from modules.parserTable.parseTable import productions
+from modules.parserTable.parseTable import terminal_to_col
+from modules.parserTable.parseTable import non_terminal_to_row
+from modules.parserTable.parseTable import parsing_table
 
 # importing the file containing the code
 script_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -149,12 +155,12 @@ class Parser(object):
 def main(input_path):
     import time
     import os
-    from modules.intermediateCodeGeneration.threeAdressCodes import TACGenerator
+    from modules.intermediateCode.threeAdressCodes import TACGenerator
     from modules.memory.memoryManager import MemoryManager
 
     SymbolTableManager.init()
 
-    # ── Parsing ──────────────────────────────────────────────
+    # ── Parsing
     parser = Parser(input_path)
     start = time.time()
     parser.parse()
@@ -168,13 +174,13 @@ def main(input_path):
     parser.scanner.save_symbol_table()
     parser.scanner.save_tokens()
 
-    # ── Memory Manager ───────────────────────────────────────
+    # ── Memory Manager
     memory = MemoryManager()
     for row in SymbolTableManager.symbol_table:
         if "type" in row:
             memory.allocate(row["lexim"], row["type"])
 
-    # ── TAC Generation ───────────────────────────────────────
+    # ── TAC Generation
     tac_output = os.path.join(script_dir, "outputs", "threeAdressCodes.txt")
     tac = TACGenerator(parser.parse_tree, memory)
     tac.generate()
