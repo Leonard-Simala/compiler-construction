@@ -152,7 +152,7 @@ class Parser(object):
                 print(f"{X} -> {' '.join(rhs)}")  # prints out the productions used
                 new_nodes = []
 
-def main(input_path):
+'''def main(input_path):
     import time
     import os
     from modules.intermediateCode.threeAdressCodes import TACGenerator
@@ -184,12 +184,51 @@ def main(input_path):
     tac_output = os.path.join(script_dir, "outputs", "threeAdressCodes.txt")
     tac = TACGenerator(parser.parse_tree, memory)
     tac.generate()
-    tac.save(tac_output)
+    tac.save(tac_output)'''
 
-    ''''# Test if Three Address codes are being printed.
+    '''# Test if Three Address codes are being printed.
     print("\n--- Three Address Code ---")
     for line in tac.code:
         print(line)'''
+
+def main(input_path):
+    import time
+    from modules.semanticAnalysis.astBuilder import build_program
+    from modules.semanticAnalysis.semanticAnalyser import SemanticAnalyzer
+    from modules.intermediateCode.threeAdressCodes import TACGenerator
+    SymbolTableManager.init()
+    parser = Parser(input_path)
+    start = time.time()
+    parser.parse()
+    stop = time.time() - start
+
+    print(f"Parsing took {stop:.6f} s")
+    parser.save_parse_tree()
+    parser.save_syntax_errors()
+    parser.scanner.save_lexical_errors()
+    parser.scanner.save_symbol_table()
+    parser.scanner.save_tokens()
+
+    if SymbolTableManager.error_flag:
+        print("Skipping semantic analysis / codegen due to syntax errors.")
+        return
+
+    # --- NEW: AST -> semantic analysis -> TAC ---------------------------
+    program = build_program(parser.parse_tree)
+
+    analyzer = SemanticAnalyzer()
+    analyzer.analyze(program)
+    with open("outputs/semantic_errors.txt", "w") as f:
+        f.write(analyzer.error_report)
+    print(analyzer.error_report)
+
+    if not analyzer.errors:
+        tac = TACGenerator()
+        tac.generate(program)
+        with open("outputs/tac.txt", "w") as f:
+            f.write(tac.pretty())
+        print(tac.pretty())
+
     
 if __name__ == "__main__":
     input_path = os.path.join(script_dir, "inputs/marks.c")
