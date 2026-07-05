@@ -1,23 +1,12 @@
 """
-Memory Manager.
-
-Responsible for storage layout: assigning each declared variable a byte
-`offset` within its enclosing function's activation record, and computing
-each function's total frame size (`Function.frame_size`, set by the
-Semantic Analyzer after it finishes walking a function body).
-
-Layout convention used here (adjust freely to match a codegen target you
-have in mind):
-    [ params ... | locals ... | temporaries (assigned later by TAC gen) ]
-    offsets grow upward from 0 at the start of the frame.
-
-Scoping: nested blocks (if/else bodies) share the *same* growing offset
-counter as their enclosing function -- i.e. we don't reuse space between
-sibling blocks. That's the simple/safe choice; if you later want block-local
-reuse (declare a temp in an `if`, reclaim its space once the block ends),
-`exit_block_scope()` is the place to add that.
+=============================================================================
+Module      : memoryManager.py
+Description :
+Author      : Leonard Simala
+Date        : 2023-04-03
+Version     : 1.0.0
+=============================================================================
 """
-
 
 class MemoryManager:
     TYPE_SIZES = {"int": 4, "char": 1, "float": 4, "void": 0}

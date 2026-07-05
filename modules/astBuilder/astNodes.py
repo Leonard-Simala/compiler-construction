@@ -1,10 +1,11 @@
 """
-AST node definitions.
-
-These are the semantically meaningful nodes we reduce the anytree parse tree
-down to. Every expression-ish node carries a `type` slot (filled in by the
-Semantic Analyzer) and a `line` slot (filled in by the AST builder, once you
-wire in line numbers from the scanner tokens -- see NOTE in ast_builder.py).
+=============================================================================
+Module      : astNodes.py
+Description :
+Author      : Leonard Simala
+Date        : 2023-04-03
+Version     : 1.0.0
+=============================================================================
 """
 
 from dataclasses import dataclass, field

@@ -1,19 +1,13 @@
 """
-Three-Address Code Generator.
-
-Produces a flat list of quadruples: (op, arg1, arg2, result).
-
-Because your Condition AST is recursive (mirroring the grammar's right
-recursion: `id relop expr [logop Condition]`), short-circuit &&/|| codegen
-falls out of straightforward recursion instead of needing the classic
-Dragon-Book on-the-fly backpatch lists (those exist to handle single-pass
-bottom-up parsing where you don't have the whole expression in hand yet --
-we do, since we're generating from a complete AST).
-
-Semantics: `a && b || c` parses right-associatively per the grammar, i.e.
-as `a && (b || c)`. Each Condition node either jumps to true_label (if it
-and everything after it up the chain succeeds) or false_label.
+=============================================================================
+Module      : threeAdressCodes.py
+Description :
+Author      : Leonard Simala
+Date        : 2023-04-03
+Version     : 1.0.0
+=============================================================================
 """
+
 
 from modules.astBuilder.astNodes import (
     Declaration, Assign, Return, If, Id, Num, Dec, Letter, BinOp,

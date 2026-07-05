@@ -1,0 +1,2 @@
+#? : Semantic Error! Function "main" is void, cannot return a value
+#? : Semantic Error! Redefinition of function "add"

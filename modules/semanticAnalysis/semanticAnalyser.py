@@ -1,30 +1,24 @@
 """
-Semantic Analyzer.
-
-Single recursive-descent pass over the AST. For each function: pushes a new
-scope, declares parameters, walks the body (declaring locals, type-checking
-assignments/conditions/returns), then pops the scope and records the frame
-size MemoryManager computed.
-
-Integration with your existing SymbolTableManager:
-  - `SymbolTableManager.scope_stack` already gets `func_row_idx + 1` pushed on
-    function entry, so `get_enclosing_fun()` keeps working exactly as it does
-    today.
-  - New rows appended here carry extra fields your current `insert()` doesn't
-    set (`role`, `type`, `size`, `offset`, `arity`, `params`) -- this doesn't
-    break `insert()`/`findrow()`/`_exists()`, it just adds fields other parts
-    of the pipeline (TAC generator) can read later.
-  - ASSUMPTION: no other part of your pipeline currently pushes/pops
-    `scope_stack` or appends declaration rows to `symbol_table` (e.g. from
-    inside the scanner). If it does, tell me and I'll adjust so we don't
-    double-manage scope.
+=============================================================================
+Module      : semanticAnayser.py
+Description : Syntax Analyser for the compiler pipeline.
+              Generates the parse tree
+Author      : Leonard Simala
+Date        : 2023-04-03
+Version     : 1.0.0
+=============================================================================
 """
+
+import os
 
 from modules.astBuilder.astNodes import (
     Declaration, Assign, Return, If, Condition, BinOp, Id, Num, Dec, Letter,
 )
 from modules.memory.memoryManager import MemoryManager
 from modules.symbolTableManager.symbolTableManager import SymbolTableManager
+
+# same convention as Parser: modules/semanticAnalyzer/semantic_analyzer.py -> project root
+script_dir = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
 class SemanticAnalyzer:
@@ -34,6 +28,7 @@ class SemanticAnalyzer:
     def __init__(self):
         self.errors = []
         self.current_function = None   # Function node currently being analyzed
+        self.semantic_error_file = os.path.join(script_dir, "errors", "semantic_errors.txt")
 
     # ---------------------------------------------------------------- API --
     def analyze(self, program):
@@ -47,6 +42,10 @@ class SemanticAnalyzer:
         if not self.errors:
             return "There is no semantic error.\n"
         return "".join(f"{e}\n" for e in self.errors)
+
+    def save_semantic_errors(self):
+        with open(self.semantic_error_file, "w") as f:
+            f.write(self.error_report)
 
     def error(self, line, msg):
         loc = f"#{line}" if line is not None else "#?"

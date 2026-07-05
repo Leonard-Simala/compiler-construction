@@ -152,44 +152,6 @@ class Parser(object):
                 print(f"{X} -> {' '.join(rhs)}")  # prints out the productions used
                 new_nodes = []
 
-'''def main(input_path):
-    import time
-    import os
-    from modules.intermediateCode.threeAdressCodes import TACGenerator
-    from modules.memory.memoryManager import MemoryManager
-
-    SymbolTableManager.init()
-
-    # ── Parsing
-    parser = Parser(input_path)
-    start = time.time()
-    parser.parse()
-    stop = time.time() - start
-    print(f"Parsing took {stop:.6f}s Check the parseTree.txt file in The outputs Folder")
-
-    # Save parser outputs
-    parser.save_parse_tree()
-    parser.save_syntax_errors()
-    parser.scanner.save_lexical_errors()
-    parser.scanner.save_symbol_table()
-    parser.scanner.save_tokens()
-
-    # ── Memory Manager
-    memory = MemoryManager()
-    for row in SymbolTableManager.symbol_table:
-        if "type" in row:
-            memory.allocate(row["lexim"], row["type"])
-
-    # ── TAC Generation
-    tac_output = os.path.join(script_dir, "outputs", "threeAdressCodes.txt")
-    tac = TACGenerator(parser.parse_tree, memory)
-    tac.generate()
-    tac.save(tac_output)'''
-
-    '''# Test if Three Address codes are being printed.
-    print("\n--- Three Address Code ---")
-    for line in tac.code:
-        print(line)'''
 
 def main(input_path):
     import time
@@ -209,17 +171,15 @@ def main(input_path):
     parser.scanner.save_symbol_table()
     parser.scanner.save_tokens()
 
-    if SymbolTableManager.error_flag:
+    '''if SymbolTableManager.error_flag:
         print("Skipping semantic analysis / codegen due to syntax errors.")
-        return
-
+        return'''
     # --- NEW: AST -> semantic analysis -> TAC ---------------------------
     program = build_program(parser.parse_tree)
 
     analyzer = SemanticAnalyzer()
     analyzer.analyze(program)
-    with open("outputs/semantic_errors.txt", "w") as f:
-        f.write(analyzer.error_report)
+    analyzer.save_semantic_errors()
     print(analyzer.error_report)
 
     if not analyzer.errors:
@@ -229,7 +189,6 @@ def main(input_path):
             f.write(tac.pretty())
         print(tac.pretty())
 
-    
 if __name__ == "__main__":
-    input_path = os.path.join(script_dir, "inputs/marks.c")
+    input_path = os.path.join(script_dir, "inputs/test.c")
     main(input_path)

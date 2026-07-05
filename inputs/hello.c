@@ -1,8 +1,13 @@
-#include <stdio.h>
 
 int main() {
-   // printf() displays the string inside quotation
-   printf("Hello, World!");
-   return 0;
+    int a = 5;
+    int b = 10;
+    int sum;
+
+    sum = a + b;
+
+    printf("%d\n", sum);
+
+    return 0;
 }
 

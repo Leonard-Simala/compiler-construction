@@ -1,26 +1,15 @@
 """
-Parse tree (anytree) -> AST converter.
-
-Your parser builds one anytree Node per grammar symbol, in production order,
-with terminal leaves carrying a `.token` attribute (set via
-`self.stack[-1].token = self.scanner.token_to_str(token)` in Parser.parse()).
-
-Because the grammar is LL(1) and the tree already encodes which alternative
-was chosen at each step (there's no ambiguity left to resolve), converting is
-just a structural walk: for each non-terminal, look at which children are
-present and recurse -- no lookahead needed here, unlike in the parser itself.
-
-NOTE on `terminal_text()`: I don't know the exact string format your
-`scanner.token_to_str()` produces (e.g. "foo" vs "ID:foo" vs "(ID, foo)").
-I've written a best-effort extractor below -- run this on a small test
-program and if identifiers/numbers come out wrong, paste me one example line
-of your token_to_str() output and I'll fix the parsing in one line.
-
-NOTE on line numbers: I don't see line numbers attached to parse tree nodes
-currently. If you want accurate line numbers in semantic error messages, the
-easiest fix is to have Parser store `self.stack[-1].line = self.scanner.line_number`
-next to where it sets `.token`. Until then, `line` fields below will be None.
+=============================================================================
+Module      : astBuilder.py
+Description :
+Author      : Leonard Simala
+Date        : 2023-04-03
+Version     : 1.0.0
+=============================================================================
 """
+
+
+import re
 
 from modules.astBuilder.astNodes import (
     Program, Function, Param, Declaration, Assign, Return, If, Condition,
@@ -36,17 +25,38 @@ def child_named(node, name):
     return None
 
 
+_CHAR_LITERAL_RE = re.compile(r"^'.'")
+
+
 def terminal_text(node):
-    """Extract the actual lexeme from a terminal leaf node."""
+    """Extract the actual lexeme from a terminal leaf node.
+
+    scanner.token_to_str() always produces the literal string "(TYPE, VALUE)"
+    -- e.g. "(ID, foo)", "(NUMBER, 123)", "(LETTER, 'a')" -- so we strip the
+    parens and take everything after the first comma.
+    """
     if node is None:
         return None
     tok = getattr(node, "token", None)
     if tok is None:
         return node.name  # keyword terminals like 'void', '+' etc. have no .token
-    text = str(tok)
-    if ":" in text:
-        text = text.split(":", 1)[1]
-    return text.strip().strip("()").strip()
+    text = str(tok).strip()
+    if text.startswith("(") and text.endswith(")"):
+        text = text[1:-1]
+    if "," in text:
+        text = text.split(",", 1)[1]
+    text = text.strip()
+    # DEFENSIVE WORKAROUND: as of this writing, the scanner's char-literal
+    # (LETTER) token can capture one stray trailing character (e.g. "'A';"
+    # instead of "'A'") -- likely a missing Fstar entry for that accepting
+    # state in tokenDfa.py. Trim back to the well-formed 'x' literal here so
+    # it doesn't corrupt the AST/TAC while that gets fixed at the source.
+    # Safe to leave in permanently: this pattern never matches ID/NUMBER/
+    # DECIMAL values, only char literals.
+    m = _CHAR_LITERAL_RE.match(text)
+    if m:
+        text = m.group(0)
+    return text
 
 
 def node_line(node):

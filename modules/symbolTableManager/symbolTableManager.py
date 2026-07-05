@@ -1,8 +1,5 @@
 class SymbolTableManager(object):
 
-    ''' Manages the symbol table of the compiler
-    which is used across modules '''
-
     _global_funcs = [{
         "lexim": "output",
         "scope": 0,
